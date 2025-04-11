@@ -1,0 +1,635 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Bungee', cursive;
+}
+
+body {
+    background: url('assets/bg1.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+}
+body {
+    cursor: url('assets/fish-cursor.png'), auto; /* Replace with your fish image */
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text x="0" y="20" font-size="20">🐟</text></svg>'), auto; /* Fallback fish emoji */
+}
+
+#bubble-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows clicks to pass through the canvas */
+    z-index: 0; /* Behind other elements but above the background */
+}
+
+/* Bubble styles */
+.bubble {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.3); /* Semi-transparent white */
+    border-radius: 50%;
+    pointer-events: none;
+    animation: bubbleRise 2s ease-out forwards;
+}
+
+/* Bubble animation */
+@keyframes bubbleRise {
+    0% {
+        opacity: 0.8;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50px) scale(1.5); /* Rise and grow */
+    }
+}
+
+/* Add a semi-transparent overlay to ensure text readability */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 61, 98, 0.5); /* Dark blue overlay with 50% opacity */
+    z-index: -1;
+}
+
+/* Animations */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes pop {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.animate-bounce { animation: bounce 2s infinite; }
+.animate-wiggle { animation: wiggle 1.5s infinite; }
+.animate-slide-in { animation: slideIn 1s ease-out; }
+.animate-pop { animation: pop 0.5s ease-out; }
+.animate-pulse { animation: pulse 1.5s infinite; }
+
+/* Header */
+header {
+    background: #0a3d62;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 5px solid #f4d35e;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 80px;
+    height: 80px;
+    margin-right: 1rem;
+}
+
+nav h1 {
+    font-size: 3rem;
+    color: #f4d35e;
+    text-shadow: 2px 2px #ee6c4d;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 2rem;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.nav-link i {
+    margin-right: 0.5rem;
+}
+
+.nav-link:hover {
+    color: #f4d35e;
+    transform: scale(1.2);
+}
+
+.burger {
+    display: none;
+    cursor: pointer;
+}
+
+.burger div {
+    width: 30px;
+    height: 4px;
+    background-color: #f4d35e;
+    margin: 6px;
+    transition: all 0.3s;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 3rem auto;
+    padding: 3rem;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 60%;
+}
+
+.hero h2 {
+    font-size: 5rem;
+    color: #f4d35e;
+    text-shadow: 3px 3px #ee6c4d;
+    margin-bottom: 1rem;
+}
+
+.hero h3 {
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.hero h3 i {
+    color: #f4d35e;
+}
+
+.hero p {
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1.5rem 3rem;
+    background: #f4d35e;
+    color: #0a3d62;
+    text-decoration: none;
+    font-size: 2rem;
+    border-radius: 10px;
+    border: 3px solid #ee6c4d;
+    transition: transform 0.3s, background 0.3s;
+}
+
+.cta-button i {
+    margin-left: 0.5rem;
+}
+
+.cta-button:hover {
+    background: #ee6c4d;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.hero-img {
+    width: 35%;
+    max-width: 500px;
+}
+
+/* News Ticker */
+.news-ticker {
+    background: #2a5298;
+    overflow: hidden;
+    padding: 1rem 0;
+    border-top: 3px solid #f4d35e;
+    border-bottom: 3px solid #f4d35e;
+}
+
+.ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+}
+
+.ticker {
+    display: flex;
+    animation: ticker 15s linear infinite;
+}
+
+.ticker span {
+    margin-right: 3rem;
+    font-size: 1.5rem;
+    font-family: 'Comic Neue', sans-serif;
+    text-transform: uppercase;
+}
+
+.ticker span i {
+    margin-right: 0.5rem;
+}
+
+@keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* About Section */
+.about {
+    max-width: 1400px;
+    margin: 3rem auto;
+    padding: 3rem;
+    text-align: center;
+}
+
+.about h2 {
+    font-size: 4rem;
+    color: #f4d35e;
+    text-shadow: 3px 3px #ee6c4d;
+    margin-bottom: 2rem;
+}
+
+.about h2 i {
+    color: #ee6c4d;
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.about-text p {
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.about-img {
+    width: 40%;
+    max-width: 400px;
+}
+
+/* Mini-Game Teaser Section */
+.minigame {
+    background: #a8edea;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.minigame h2 {
+    font-size: 4rem;
+    color: #f4d35e;
+    text-shadow: 3px 3px #ee6c4d;
+    margin-bottom: 3rem;
+}
+
+.minigame h2 i {
+    color: #ee6c4d;
+}
+
+.minigame-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.minigame-teaser {
+    flex: 1;
+}
+
+.minigame-teaser p {
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.minigame-teaser i {
+    font-size: 2rem;
+    color: #ee6c4d;
+    margin-right: 0.5rem;
+}
+
+.minigame-img {
+    width: 40%;
+    max-width: 400px;
+    border-radius: 15px;
+    border: 3px solid #f4d35e;
+}
+
+.minigame-note {
+    margin-top: 2rem;
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 1.5rem;
+    color: #0a3d62;
+}
+
+/* Community Section */
+.community {
+    max-width: 1400px;
+    margin: 3rem auto;
+    padding: 3rem;
+    text-align: center;
+}
+
+.community h2 {
+    font-size: 4rem;
+    color: #f4d35e;
+    text-shadow: 3px 3px #ee6c4d;
+    margin-bottom: 2rem;
+}
+
+.community h2 i {
+    color: #ee6c4d;
+}
+
+.community p {
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+.community-links {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    background: #ee6c4d;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.8rem;
+    border-radius: 10px;
+    border: 3px solid #f4d35e;
+    transition: transform 0.3s;
+}
+
+.social-link:hover {
+    transform: scale(1.1);
+}
+
+.social-icon {
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+.meme-gallery h3 {
+    font-size: 3rem;
+    color: #f4d35e;
+    margin-bottom: 2rem;
+}
+
+.meme-gallery h3 i {
+    color: #ee6c4d;
+}
+
+.meme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.meme-img {
+    width: 100%;
+    border-radius: 15px;
+    border: 3px solid #f4d35e;
+    transition: transform 0.3s;
+}
+
+.meme-img:hover {
+    transform: rotate(5deg);
+}
+
+/* Buy Section */
+.buy {
+    background: #2a5298;
+    text-align: center;
+    padding: 4rem 2rem;
+    border-top: 5px solid #f4d35e;
+}
+
+.buy h2 {
+    font-size: 4rem;
+    color: #f4d35e;
+    text-shadow: 3px 3px #ee6c4d;
+    margin-bottom: 2rem;
+}
+
+.buy h2 i {
+    color: #ee6c4d;
+}
+
+.buy p {
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+.buy .cta-button {
+    background: #f4d35e;
+    color: #0a3d62;
+}
+
+.buy .cta-button:hover {
+    background: #ee6c4d;
+    color: #fff;
+}
+
+.contract-info {
+    margin-top: 2rem;
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 1.2rem;
+}
+
+.contract-info span {
+    font-family: monospace;
+    word-break: break-all;
+}
+
+/* Footer */
+footer {
+    background: #0a3d62;
+    color: #fff;
+    padding: 2rem;
+    text-align: center;
+    border-top: 5px solid #f4d35e;
+}
+
+.footer-content p {
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.footer-content p i {
+    color: #f4d35e;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.footer-links a {
+    color: #f4d35e;
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #ee6c4d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        background: #0a3d62;
+        padding: 2rem;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .burger {
+        display: block;
+    }
+
+    .hero {
+        flex-direction: column;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .hero h2 {
+        font-size: 3.5rem;
+    }
+
+    .hero h3 {
+        font-size: 2rem;
+    }
+
+    .hero-img {
+        width: 80%;
+        max-width: 300px;
+    }
+
+    .about-content {
+        flex-direction: column;
+    }
+
+    .about-img {
+        width: 80%;
+        max-width: 300px;
+    }
+
+    .minigame-content {
+        flex-direction: column;
+    }
+
+    .minigame-img {
+        width: 80%;
+        max-width: 300px;
+    }
+
+    .community-links {
+        flex-direction: column;
+    }
+}
+
+/* Creator Link in Footer */
+.creator-link {
+    color: #f4d35e; /* Sandy yellow to match the footer theme */
+    text-decoration: none; /* Remove default underline */
+    border-bottom: 2px solid #ee6c4d; /* Coral underline for emphasis */
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.creator-link:hover {
+    color: #ee6c4d; /* Coral on hover */
+    border-color: #f4d35e; /* Sandy yellow underline on hover */
+}
+
+.audio-player {
+    /* text-align: right; */
+    margin-left: 8px;
+    padding: 0.5rem 0;
+    background: #0a3d62; /* Match header background */
+    border-bottom: 3px solid #f4d35e; /* Sandy yellow border */
+}
+
+.audio-toggle-btn {
+    background: #f4d35e; /* Sandy yellow */
+    color: #0a3d62; /* Deep blue */
+    border: 2px solid #ee6c4d; /* Coral border */
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-family: 'Comic Neue', sans-serif;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.audio-toggle-btn i {
+    margin-right: 0.5rem;
+}
+
+.audio-toggle-btn:hover {
+    background: #ee6c4d; /* Coral on hover */
+    color: #fff;
+}
+
+/* Hide the default audio controls */
+#background-audio {
+    display: none;
+}
