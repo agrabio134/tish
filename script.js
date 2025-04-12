@@ -130,3 +130,19 @@ audioToggleBtn.addEventListener('click', () => {
         audioToggleBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
     }
 });
+
+// Play button toggle for minigame section
+document.addEventListener('DOMContentLoaded', () => {
+    const playButton = document.getElementById('play-button');
+    const minigameContent = document.getElementById('minigame-content');
+
+    if (playButton && minigameContent) {
+        playButton.addEventListener('click', () => {
+            if (minigameContent.style.display === 'none') {
+                minigameContent.style.display = 'flex';
+                minigameContent.classList.add('active');
+                playButton.style.display = 'none'; // Hide button after click
+            }
+        });
+    }
+});

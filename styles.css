@@ -633,3 +633,87 @@ footer {
 #background-audio {
     display: none;
 }
+
+.minigame-game {
+    flex: 1;
+    text-align: center;
+}
+
+.minigame-game h3 {
+    font-size: 2.5rem;
+    color: #f4d35e;
+    text-shadow: 2px 2px #ee6c4d;
+    margin-bottom: 1rem;
+}
+
+.minigame-game h3 i {
+    color: #ee6c4d;
+}
+
+.minigame-game iframe {
+    width: 100%;
+    max-width: 485px;
+    height: 402px;
+    border: 3px solid #f4d35e;
+    border-radius: 15px;
+    background: #fff; /* Ensures no transparency issues */
+}
+
+.minigame-game p {
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 1.5rem;
+    color: #0a3d62;
+    margin-top: 1rem;
+}
+
+.minigame-intro {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.minigame-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: 3rem;
+}
+
+/* Ensure animations apply when content is shown */
+.minigame-content.active .minigame-game {
+    animation: slideIn 1s ease-out;
+}
+
+/* Adjust button for consistency */
+.minigame-intro .cta-button {
+    font-size: 2rem;
+    padding: 1.5rem 3rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .minigame-intro .cta-button {
+        font-size: 1.5rem;
+        padding: 1rem 2rem;
+    }
+}
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .minigame-content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .minigame-game iframe {
+        width: 100%;
+        max-width: 100%;
+        height: 300px; /* Adjust height for smaller screens */
+    }
+
+    .minigame-game h3 {
+        font-size: 2rem;
+    }
+
+    .minigame-game p {
+        font-size: 1.3rem;
+    }
+}
